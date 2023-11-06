@@ -1,16 +1,28 @@
-<script context='module'>
-
-</script>
-
 <script>
-    let todoList = ['Do the groceries']
+    import { authHandlers, authStore } from "../../store/store";
+    // @ts-ignore
+    import { getDoc, doc, setDoc } from 'firebase/firestore';
+    import { db } from "$lib/firebase/firebase";
+
+    // @ts-ignore
+    /**
+   * @type {any[]}
+   */
+    let todoList = []
     let currentTodo = ''
     let error = false
+
+    authStore.subscribe(curr => {
+        // @ts-ignore
+        todoList = curr.data.todos
+    })
+
     function addTodo() {
         
         if (!currentTodo) {
             error = true
         }
+        // @ts-ignore
         todoList = [...todoList, currentTodo]
         currentTodo = ''
     }
@@ -18,30 +30,49 @@
     // @ts-ignore
     // @ts-ignore
     function editTodo(index) {
+        // @ts-ignore
         let newTodoList = todoList.filter((val,i) => {
             return i !== index
         })
 
+        // @ts-ignore
         currentTodo = todoList[index]
         todoList = newTodoList
     }
 
     // @ts-ignore
     function removeTodo(index) {
+        // @ts-ignore
         let newTodoList = todoList.filter((val,i) => {
             return i !== index
         })
 
         todoList = newTodoList
     }
+
+    // @ts-ignore
+    async function saveTodos() {
+        try {
+            // @ts-ignore
+            const userRef = doc(db, 'users', $authStore.user.uid)
+            await setDoc(
+                userRef,
+                   { todos: todoList, }, {merge: true,}
+            )
+        } catch (err) {
+            console.log('There was an error saving information')
+        }
+    }
 </script>
+
+{#if !$authStore.loading}
 
 <div class="mainContainer">
     <div class="headerContainer">
             <h1>Todo List</h1>
             <div class="btn-container">
-                <button>Save</button>
-                <button>Logout</button>
+                <button on:click={saveTodos}>Save</button>
+                <button on:click={authHandlers.logout}>Logout</button>
             </div>
            
     </div>
@@ -69,6 +100,9 @@
         {/each}
     </main>
 </div>
+{:else}
+    <p>Loading..</p>
+{/if}
 
 <style>
     .mainContainer {

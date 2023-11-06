@@ -1,15 +1,36 @@
 <script>
+    import { authHandlers } from "../store/store";
+
     let email = ''
     let password = ''
     let confirmPass = ''
     let error = false
     let register = false
+    let authenticating = false
 
-    function handleAuthenticate() {
+    async function handleAuthenticate() {
+        if (authenticating) {
+            return
+        }
+       
         if (!email || !password || (register && !confirmPass)) {
             error = true
             return
         }
+        authenticating = true
+        try {
+            if (!register) {
+                await authHandlers.login(email, password)
+            } else {
+                await authHandlers.signup(email, password)
+            }
+        } catch (err) {
+            console.log('there was an auth error', err)
+            error = true
+            authenticating = false
+        }
+
+        
     }
 
     function toggleRegister() {
@@ -37,7 +58,13 @@
             <input type="password" placeholder="Confirm Password" bind:value={confirmPass}>
         </label>
         {/if}
-        <button type="button">Submit</button>
+        <button type="button" on:click={handleAuthenticate}>
+            {#if authenticating}
+                <p>Loading...</p>
+            {:else}
+                <p>Submit</p>
+            {/if}
+        </button>
     </form>
     <div class='options'>
         {#if register}
@@ -82,6 +109,7 @@
         margin: 0;
         font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
         outline: none;
+        color: rgb(29, 29, 29);
     }
 
     p {

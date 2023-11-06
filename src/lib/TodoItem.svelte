@@ -1,8 +1,24 @@
 <script>
-    export let index
-    export let todo
-    export let editTodo
-    export let removeTodo
+    // @ts-ignore
+    /**
+   * @type {number}
+   */
+     export let index
+    // @ts-ignore
+    /**
+   * @type {any}
+   */
+     export let todo
+    // @ts-ignore
+    /**
+   * @type {(arg0: any) => void}
+   */
+     export let editTodo
+    // @ts-ignore
+    /**
+   * @type {(arg0: any) => void}
+   */
+     export let removeTodo
 </script>
 
 <div class='todo'>

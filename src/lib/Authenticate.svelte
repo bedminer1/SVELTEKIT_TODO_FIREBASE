@@ -70,11 +70,15 @@
         {#if register}
             <div>
                 <p>Already have an account?</p>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                 <p on:click={toggleRegister}>Login</p>
             </div>
         {:else}
             <div>
                 <p>Don't have an account?</p>
+                <!-- svelte-ignore a11y-click-events-have-key-events -->
+                <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
                 <p on:click={toggleRegister}>Sign Up</p>
             </div>
         {/if}

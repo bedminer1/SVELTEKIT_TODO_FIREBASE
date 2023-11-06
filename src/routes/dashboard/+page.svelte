@@ -12,6 +12,7 @@
     let todoList = []
     let currentTodo = ''
     let error = false
+    let successfulSave = false
 
     authStore.subscribe(curr => {
         // @ts-ignore
@@ -60,6 +61,14 @@
                 userRef,
                    { todos: todoList, }, {merge: true,}
             )
+            setTimeout(() => {
+                successfulSave = true
+            }, 200);
+
+            setTimeout(() => {
+                successfulSave = false
+            }, 1300);
+
         } catch (err) {
             console.log('There was an error saving information')
         }
@@ -72,7 +81,13 @@
     <div class="headerContainer">
             <h1>Todo List</h1>
             <div class="btn-container">
-                <button on:click={saveTodos}>Save</button>
+                <button on:click={saveTodos} class:successfulSave={successfulSave}>
+                    {#if successfulSave}
+                        Done
+                    {:else}
+                        Save
+                    {/if}
+                </button>
                 <button on:click={authHandlers.logout}>Logout</button>
             </div>
            
@@ -128,6 +143,10 @@
         border-top: none;
         border-radius: 2px;
         padding: 3px;
+    }
+
+    .successfulSave {
+        background-color: rgb(14, 101, 14);
     }
 
 

@@ -4,6 +4,7 @@
     import { auth, db } from '$lib/firebase/firebase';
     import { setDoc, getDoc, doc } from 'firebase/firestore';
     import { authStore } from '../store/store';
+    import Footer from '$lib/Footer.svelte';
 
     const nonAuthRoutes = ['/']
 
@@ -58,6 +59,7 @@
 
 <div class='main-container'>
     <slot />
+    <Footer />
 </div>
 
 <style>

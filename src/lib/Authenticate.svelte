@@ -93,6 +93,7 @@
         justify-content: center;
         padding: 24px;
         width: 200px;
+        padding-left: 90px;
     }
     
     h1 {

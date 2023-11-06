@@ -114,7 +114,7 @@
     .mainContainer {
         display: flex;
         flex-direction: column;
-        min-height: 100vh;
+        min-height: 80vh;
         gap: 24;
         width: 100%;
         max-width: 1000px;

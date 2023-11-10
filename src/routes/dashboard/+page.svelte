@@ -4,6 +4,7 @@
     import { getDoc, doc, setDoc } from 'firebase/firestore';
     import { db } from "$lib/firebase/firebase";
     import TodoItem from "$lib/TodoItem.svelte";
+    import { fade, fly } from "svelte/transition";
 
     // @ts-ignore
     /**
@@ -102,8 +103,10 @@
             <p style="font-size: 25px;">Nothing To Do</p>
         {/if}
         {#each todoList as todo, index}
-            <TodoItem todo={todo} index={index} removeTodo={removeTodo} editTodo={editTodo} />
-        {/each}
+            <div in:fly={{duration: 300, x: -500}} out:fade>
+                <TodoItem todo={todo} index={index} removeTodo={removeTodo} editTodo={editTodo}/>
+            </div>
+            {/each}
     </main>
 </div>
 {:else}
